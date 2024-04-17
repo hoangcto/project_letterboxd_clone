@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.inputmethod.InputMethodManager
+import androidx.activity.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuProvider
@@ -13,15 +15,27 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import edu.utap.movie_app.api.TMDBApi
 import edu.utap.movie_app.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    companion object {
+        const val TAG = "MainActivity"
+        var globalDebug = false
+        lateinit var jsonAww100: String
+    }
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var authUser : AuthUser
-    companion object {
-        const val TAG = "MainActivity"
+    private val viewModel: MainViewModel by viewModels()
+
+    // An Android nightmare
+    // https://stackoverflow.com/questions/1109022/close-hide-the-android-soft-keyboard
+    // https://stackoverflow.com/questions/7789514/how-to-get-activitys-windowtoken-without-view
+    fun hideKeyboard() {
+        val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(window.decorView.rootView.windowToken, 0)
     }
 
     private fun initMenu() {
@@ -66,7 +80,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         initMenu()
 
+        viewModel.observeMovies().observe(this) { popularMovies ->
+            // Handle popular movies response
+            Log.d("MainActivity", "Popular movies: $popularMovies")
+        }
 
+//        viewModel.movies.observe(this) { popularMovies ->
+//            // Handle popular movies response
+//            Log.d("MainActivity2", "Popular movies: $popularMovies")
+//        }
 
         val navView: BottomNavigationView = binding.navView
 
@@ -93,7 +115,7 @@ class MainActivity : AppCompatActivity() {
         authUser.observeUser().observe(this) {user ->
             // XXX Write me, user status has changed
             if (!user.isInvalid()) {
-
+                viewModel.setCurrentAuthUser(user)
             } else {
             }
         }
