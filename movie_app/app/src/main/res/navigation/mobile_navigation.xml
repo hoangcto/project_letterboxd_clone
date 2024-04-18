@@ -22,4 +22,16 @@
         android:name="edu.utap.movie_app.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/onePostFragment"
+        android:name="edu.utap.movie_app.MovieDetailFragment"
+        android:label="OnePost">
+<!--        <argument-->
+<!--            android:name="post"-->
+<!--            app:argType="edu.cs371m.reddit.api.RedditPost" />-->
+<!--        &lt;!&ndash;        <argument&ndash;&gt;-->
+<!--        &lt;!&ndash;            android:name="subTitle"&ndash;&gt;-->
+<!--        &lt;!&ndash;            app:argType="string"&ndash;&gt;-->
+<!--        &lt;!&ndash;            android:defaultValue="aww"/>&ndash;&gt;-->
+    </fragment>
 </navigation>

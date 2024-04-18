@@ -1,7 +1,9 @@
 package edu.utap.movie_app.ui.home
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -53,19 +55,31 @@ class PostRowAdapter(private val viewModel: MainViewModel,
         return VH(rowPostBinding)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: VH, position: Int) {
         //XXX Write me.
         val rowBinding = holder.rowPostBinding
         val item = getItem(position)
+        val displayMetrics = holder.itemView.context.resources.displayMetrics
+        val screenHeight = displayMetrics.heightPixels
+        val rowHeight = (screenHeight * 0.25).toInt()
+
+        // Set the height of the root LinearLayout
+        rowBinding.root.layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            rowHeight
+        )
+
         rowBinding.apply {
 
-            rowBinding.rowPictureTitle.text = item.title
-            rowBinding.rowSize.text = item.popularity.toString()
+            rowBinding.movieTitle.text = item.title
+            rowBinding.popularityScore.text = "Popularity Score: " + item.popularity.toInt().toString()
+            rowBinding.voteAverage.text = "User Score: " + String.format("%.1f", item.voteAverage)
 
             //load image
             item.posterPath?.let { Glide.glideFetch(it, item.posterPath, rowBinding.rowImageView) }
-            rowBinding.rowPictureTitle.setOnClickListener { navigateToOnePost(item) }
-            rowBinding.rowSize.setOnClickListener { navigateToOnePost(item) }
+            rowBinding.movieTitle.setOnClickListener { navigateToOnePost(item) }
+            rowBinding.popularityScore.setOnClickListener { navigateToOnePost(item) }
             rowBinding.rowImageView.setOnClickListener { navigateToOnePost(item) }
 
 //            if(viewModel.observeFavorites().value?.contains(item) == true){

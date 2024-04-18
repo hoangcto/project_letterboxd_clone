@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import edu.utap.movie_app.MainViewModel
@@ -35,7 +36,11 @@ class HomeFragment: Fragment() {
 //            val action = HomeFragmentDirections.actionHomeFragmentToOnePostFragment(it)
 //            findNavController().navigate(action)
         }
-        // XXX Write me, observe posts
+
+        val rv = binding.recyclerView
+        val itemDecor = DividerItemDecoration(rv.context, LinearLayoutManager.VERTICAL)
+        rv.addItemDecoration(itemDecor)
+
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = postRowAdapter
