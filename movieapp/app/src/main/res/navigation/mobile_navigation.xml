@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="edu.utap.movieapp.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_onePostFragment"
+            app:destination="@id/onePostFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_review"
+        android:name="edu.utap.movieapp.ui.review.ReviewFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_review">
+        <action
+            android:id="@+id/action_navigation_review_to_navigation_review_edit"
+            app:destination="@id/reviewEditFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="edu.utap.movieapp.ui.notifications.NotificationsFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/onePostFragment"
+        android:name="edu.utap.movieapp.MovieDetailFragment"
+        >
+        <argument
+            android:name="movie"
+            app:argType="edu.utap.movieapp.api.MovieResponse" />
+        <argument
+            android:name="movieTitle"
+            app:argType="string"
+            android:defaultValue="Details"/>
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/reviewEditFragment"
+        android:name="edu.utap.movieapp.ui.review.ReviewEdit"
+        android:label="{title}"
+        tools:layout="@layout/review_edit"
+        >
+        <argument
+            android:name="position"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <argument
+            android:name="title"
+            app:argType="string"
+            android:defaultValue="New Review"
+            />
+    </fragment>
+</navigation>
